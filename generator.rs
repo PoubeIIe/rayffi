@@ -97,22 +97,31 @@ fn resolve_type(var_type: &VarType, rs_type: &mut RsType)->String{
 
 fn generate_struct(name: impl AsRef<str>, fields: &Vec<Statement>, bindings: &mut Vec<String>, opaque: bool){
 	let name_str = name.as_ref();
+	let mut struct_wrapper = String::new();
+	struct_wrapper.push_str(&format!("impl {}{{\n", name_str));
+	struct_wrapper.push_str("    pub fn new(");
 	bindings.push("#[repr(C)]".to_string());
 	if !opaque{bindings.push("#[derive(Debug, Copy, Clone)]".to_string());}
 	let mut publicity = String::new();
 	if !opaque{publicity = "pub".to_string();}
 	bindings.push(format!("pub struct {} {{", name_str));
+	let mut arg_name = Vec::new();
 	for field in fields{
 		match field{
 			Statement::Variable(var_type, var_name)=>{
 				let mut fix_name = var_name.clone();
 				if var_name == "type" || var_name == "box"{fix_name = format!("{}{}", "r#", var_name);}
-				bindings.push(format!("    {} {}: {}", publicity, fix_name, resolve_type(var_type, &mut RsType{prefix: String::new(), size: 0, is_pointer: false, is_constant: false,	is_char: false, requires_size: false, is_unsigned: false, is_array: false, arr_size: 0})));
+				let res_type = resolve_type(var_type, &mut RsType{prefix: String::new(), size: 0, is_pointer: false, is_constant: false,	is_char: false, requires_size: false, is_unsigned: false, is_array: false, arr_size: 0});
+				bindings.push(format!("    {} {}: {}", publicity, fix_name, res_type));
+				struct_wrapper.push_str(&format!("{}: {} ", fix_name, res_type));
+				arg_name.push(fix_name);
 			},
 			Statement::MultiDeclaration(var_type, name_vec)=>{
 				let common_type = resolve_type(var_type, &mut RsType{prefix: String::new(), size: 0, is_pointer: false, is_constant: false,	is_char: false, requires_size: false, is_unsigned: false, is_array: false, arr_size: 0}).to_owned();
 				for decl in name_vec{
 					bindings.push(format!("    {} {}: {}", publicity, decl, common_type));
+					struct_wrapper.push_str(&format!("{}: {} ", decl, common_type));
+					arg_name.push(decl.to_string());
 				}
 			}
 			_=>{todo!("{:?}", field)}
@@ -120,6 +129,22 @@ fn generate_struct(name: impl AsRef<str>, fields: &Vec<Statement>, bindings: &mu
 		// bindings.push(format!("pub struct {} {{", name_str));
 	}
 	bindings.push("}".to_string());
+	if fields.len()>=1{struct_wrapper.pop();struct_wrapper.pop();}
+	struct_wrapper.push_str(")");
+	struct_wrapper.push_str(&format!("->{}{{\n", name_str));
+	struct_wrapper.push_str(&format!("       {}{{", name_str));
+	for arg in &arg_name{
+		struct_wrapper.push_str(&format!("{}:{}, ", arg, arg));
+	}
+	if arg_name.len()>=1{struct_wrapper.pop();struct_wrapper.pop();}
+	struct_wrapper.push_str("}\n   }\n}");
+	bindings.push(struct_wrapper);
+
+	// impl Color{
+	// 	pub fn new(r: u8, g: u8, b: u8, a: u8)->Color{
+	// 	    Color{r:r, g:g, b:b, a:a}
+	// 	}
+	// }
 }
 
 fn generate_type_alias(original_type: &VarType, alias_name: impl AsRef<str>, bindings: &mut Vec<String>){
@@ -230,7 +255,7 @@ pub fn generate(ast: &AST)->Vec<String>{
 	let mut raw_functions: Vec<String> = Vec::new();
 	let mut wrapper_functions: Vec<String> = Vec::new();
 	raw_functions.push("mod raw{".to_string());
-	raw_functions.push("    use ffi_bind::*;".to_string()); // file name of ffi implementations
+	raw_functions.push("    use raylib::*;".to_string()); // file name of ffi implementations
 	raw_functions.push("    unsafe extern \"C\" {".to_string());
 
 	let mut i = 0;

@@ -1,4 +1,3 @@
-#![allow(warnings)]
 use std::ffi::{c_char, c_uchar, c_void};
 use std::ffi::CString;
 #[repr(C)]
@@ -7,12 +6,22 @@ pub struct Vector2 {
     pub x: f32,
     pub y: f32,
 }
+impl Vector2{
+    pub fn new(x: f32, y: f32)->Vector2{
+       Vector2{x:x, y:y}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Vector3 {
     pub x: f32,
     pub y: f32,
     pub z: f32,
+}
+impl Vector3{
+    pub fn new(x: f32, y: f32, z: f32)->Vector3{
+       Vector3{x:x, y:y, z:z}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -21,6 +30,11 @@ pub struct Vector4 {
     pub y: f32,
     pub z: f32,
     pub w: f32,
+}
+impl Vector4{
+    pub fn new(x: f32, y: f32, z: f32, w: f32)->Vector4{
+       Vector4{x:x, y:y, z:z, w:w}
+   }
 }
 pub type Quaternion = Vector4;
 #[repr(C)]
@@ -43,6 +57,11 @@ pub struct Matrix {
     pub m11: f32,
     pub m15: f32,
 }
+impl Matrix{
+    pub fn new(m0: f32, m4: f32, m8: f32, m12: f32, m1: f32, m5: f32, m9: f32, m13: f32, m2: f32, m6: f32, m10: f32, m14: f32, m3: f32, m7: f32, m11: f32, m15: f32)->Matrix{
+       Matrix{m0:m0, m4:m4, m8:m8, m12:m12, m1:m1, m5:m5, m9:m9, m13:m13, m2:m2, m6:m6, m10:m10, m14:m14, m3:m3, m7:m7, m11:m11, m15:m15}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Color {
@@ -51,6 +70,11 @@ pub struct Color {
     pub b: u8,
     pub a: u8,
 }
+impl Color{
+    pub fn new(r: u8, g: u8, b: u8, a: u8)->Color{
+       Color{r:r, g:g, b:b, a:a}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Rectangle {
@@ -58,6 +82,11 @@ pub struct Rectangle {
     pub y: f32,
     pub width: f32,
     pub height: f32,
+}
+impl Rectangle{
+    pub fn new(x: f32, y: f32, width: f32, height: f32)->Rectangle{
+       Rectangle{x:x, y:y, width:width, height:height}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -68,6 +97,11 @@ pub struct Image {
     pub mipmaps: i32,
     pub format: i32,
 }
+impl Image{
+    pub fn new(data: *mut c_void, width: i32, height: i32, mipmaps: i32, format: i32)->Image{
+       Image{data:data, width:width, height:height, mipmaps:mipmaps, format:format}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Texture {
@@ -77,6 +111,11 @@ pub struct Texture {
     pub mipmaps: i32,
     pub format: i32,
 }
+impl Texture{
+    pub fn new(id: u32, width: i32, height: i32, mipmaps: i32, format: i32)->Texture{
+       Texture{id:id, width:width, height:height, mipmaps:mipmaps, format:format}
+   }
+}
 pub type Texture2D = Texture;
 pub type TextureCubemap = Texture;
 #[repr(C)]
@@ -85,6 +124,11 @@ pub struct RenderTexture {
     pub id: u32,
     pub texture: Texture,
     pub depth: Texture,
+}
+impl RenderTexture{
+    pub fn new(id: u32, texture: Texture, depth: Texture)->RenderTexture{
+       RenderTexture{id:id, texture:texture, depth:depth}
+   }
 }
 pub type RenderTexture2D = RenderTexture;
 #[repr(C)]
@@ -97,6 +141,11 @@ pub struct NPatchInfo {
     pub bottom: i32,
     pub layout: i32,
 }
+impl NPatchInfo{
+    pub fn new(source: Rectangle, left: i32, top: i32, right: i32, bottom: i32, layout: i32)->NPatchInfo{
+       NPatchInfo{source:source, left:left, top:top, right:right, bottom:bottom, layout:layout}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct GlyphInfo {
@@ -105,6 +154,11 @@ pub struct GlyphInfo {
     pub offsetY: i32,
     pub advanceX: i32,
     pub image: Image,
+}
+impl GlyphInfo{
+    pub fn new(value: i32, offsetX: i32, offsetY: i32, advanceX: i32, image: Image)->GlyphInfo{
+       GlyphInfo{value:value, offsetX:offsetX, offsetY:offsetY, advanceX:advanceX, image:image}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -116,6 +170,11 @@ pub struct Font {
     pub recs: *mut Rectangle,
     pub glyphs: *mut GlyphInfo,
 }
+impl Font{
+    pub fn new(baseSize: i32, glyphCount: i32, glyphPadding: i32, texture: Texture2D, recs: *mut Rectangle, glyphs: *mut GlyphInfo)->Font{
+       Font{baseSize:baseSize, glyphCount:glyphCount, glyphPadding:glyphPadding, texture:texture, recs:recs, glyphs:glyphs}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Camera3D {
@@ -125,6 +184,11 @@ pub struct Camera3D {
     pub fovy: f32,
     pub projection: i32,
 }
+impl Camera3D{
+    pub fn new(position: Vector3, target: Vector3, up: Vector3, fovy: f32, projection: i32)->Camera3D{
+       Camera3D{position:position, target:target, up:up, fovy:fovy, projection:projection}
+   }
+}
 pub type Camera = Camera3D;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -133,6 +197,11 @@ pub struct Camera2D {
     pub target: Vector2,
     pub rotation: f32,
     pub zoom: f32,
+}
+impl Camera2D{
+    pub fn new(offset: Vector2, target: Vector2, rotation: f32, zoom: f32)->Camera2D{
+       Camera2D{offset:offset, target:target, rotation:rotation, zoom:zoom}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -154,11 +223,21 @@ pub struct Mesh {
     pub vaoId: u32,
     pub vboId: *mut u32,
 }
+impl Mesh{
+    pub fn new(vertexCount: i32, triangleCount: i32, vertices: *mut f32, texcoords: *mut f32, texcoords2: *mut f32, normals: *mut f32, tangents: *mut f32, colors: *mut c_uchar, indices: *mut u16, boneCount: i32, boneIndices: *mut c_uchar, boneWeights: *mut f32, animVertices: *mut f32, animNormals: *mut f32, vaoId: u32, vboId: *mut u32)->Mesh{
+       Mesh{vertexCount:vertexCount, triangleCount:triangleCount, vertices:vertices, texcoords:texcoords, texcoords2:texcoords2, normals:normals, tangents:tangents, colors:colors, indices:indices, boneCount:boneCount, boneIndices:boneIndices, boneWeights:boneWeights, animVertices:animVertices, animNormals:animNormals, vaoId:vaoId, vboId:vboId}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Shader {
     pub id: u32,
     pub locs: *mut i32,
+}
+impl Shader{
+    pub fn new(id: u32, locs: *mut i32)->Shader{
+       Shader{id:id, locs:locs}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -167,12 +246,22 @@ pub struct MaterialMap {
     pub color: Color,
     pub value: f32,
 }
+impl MaterialMap{
+    pub fn new(texture: Texture2D, color: Color, value: f32)->MaterialMap{
+       MaterialMap{texture:texture, color:color, value:value}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Material {
     pub shader: Shader,
     pub maps: *mut MaterialMap,
     pub params: [f32; 4],
+}
+impl Material{
+    pub fn new(shader: Shader, maps: *mut MaterialMap, params: [f32; 4])->Material{
+       Material{shader:shader, maps:maps, params:params}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -181,6 +270,11 @@ pub struct Transform {
     pub rotation: Quaternion,
     pub scale: Vector3,
 }
+impl Transform{
+    pub fn new(translation: Vector3, rotation: Quaternion, scale: Vector3)->Transform{
+       Transform{translation:translation, rotation:rotation, scale:scale}
+   }
+}
 pub type ModelAnimPose = *mut Transform;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -188,12 +282,22 @@ pub struct BoneInfo {
     pub name: [i8; 32],
     pub parent: i32,
 }
+impl BoneInfo{
+    pub fn new(name: [i8; 32], parent: i32)->BoneInfo{
+       BoneInfo{name:name, parent:parent}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct ModelSkeleton {
     pub boneCount: i32,
     pub bones: *mut BoneInfo,
     pub bindPose: ModelAnimPose,
+}
+impl ModelSkeleton{
+    pub fn new(boneCount: i32, bones: *mut BoneInfo, bindPose: ModelAnimPose)->ModelSkeleton{
+       ModelSkeleton{boneCount:boneCount, bones:bones, bindPose:bindPose}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -208,6 +312,11 @@ pub struct Model {
     pub currentPose: ModelAnimPose,
     pub boneMatrices: *mut Matrix,
 }
+impl Model{
+    pub fn new(transform: Matrix, meshCount: i32, materialCount: i32, meshes: *mut Mesh, materials: *mut Material, meshMaterial: *mut i32, skeleton: ModelSkeleton, currentPose: ModelAnimPose, boneMatrices: *mut Matrix)->Model{
+       Model{transform:transform, meshCount:meshCount, materialCount:materialCount, meshes:meshes, materials:materials, meshMaterial:meshMaterial, skeleton:skeleton, currentPose:currentPose, boneMatrices:boneMatrices}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct ModelAnimation {
@@ -216,11 +325,21 @@ pub struct ModelAnimation {
     pub keyframeCount: i32,
     pub keyframePoses: *mut ModelAnimPose,
 }
+impl ModelAnimation{
+    pub fn new(name: [i8; 32], boneCount: i32, keyframeCount: i32, keyframePoses: *mut ModelAnimPose)->ModelAnimation{
+       ModelAnimation{name:name, boneCount:boneCount, keyframeCount:keyframeCount, keyframePoses:keyframePoses}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Ray {
     pub position: Vector3,
     pub direction: Vector3,
+}
+impl Ray{
+    pub fn new(position: Vector3, direction: Vector3)->Ray{
+       Ray{position:position, direction:direction}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -230,11 +349,21 @@ pub struct RayCollision {
     pub point: Vector3,
     pub normal: Vector3,
 }
+impl RayCollision{
+    pub fn new(hit: bool, distance: f32, point: Vector3, normal: Vector3)->RayCollision{
+       RayCollision{hit:hit, distance:distance, point:point, normal:normal}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct BoundingBox {
     pub min: Vector3,
     pub max: Vector3,
+}
+impl BoundingBox{
+    pub fn new(min: Vector3, max: Vector3)->BoundingBox{
+       BoundingBox{min:min, max:max}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -245,13 +374,28 @@ pub struct Wave {
     pub channels: u32,
     pub data: *mut c_void,
 }
+impl Wave{
+    pub fn new(frameCount: u32, sampleRate: u32, sampleSize: u32, channels: u32, data: *mut c_void)->Wave{
+       Wave{frameCount:frameCount, sampleRate:sampleRate, sampleSize:sampleSize, channels:channels, data:data}
+   }
+}
 #[repr(C)]
 pub struct rAudioBuffer {
      _unused: [u8; 0],
 }
+impl rAudioBuffer{
+    pub fn new(_unused: [u8; 0])->rAudioBuffer{
+       rAudioBuffer{_unused:_unused}
+   }
+}
 #[repr(C)]
 pub struct rAudioProcessor {
      _unused: [u8; 0],
+}
+impl rAudioProcessor{
+    pub fn new(_unused: [u8; 0])->rAudioProcessor{
+       rAudioProcessor{_unused:_unused}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -262,11 +406,21 @@ pub struct AudioStream {
     pub sampleSize: u32,
     pub channels: u32,
 }
+impl AudioStream{
+    pub fn new(buffer: *mut rAudioBuffer, processor: *mut rAudioProcessor, sampleRate: u32, sampleSize: u32, channels: u32)->AudioStream{
+       AudioStream{buffer:buffer, processor:processor, sampleRate:sampleRate, sampleSize:sampleSize, channels:channels}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Sound {
     pub stream: AudioStream,
     pub frameCount: u32,
+}
+impl Sound{
+    pub fn new(stream: AudioStream, frameCount: u32)->Sound{
+       Sound{stream:stream, frameCount:frameCount}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -276,6 +430,11 @@ pub struct Music {
     pub looping: bool,
     pub ctxType: i32,
     pub ctxData: *mut c_void,
+}
+impl Music{
+    pub fn new(stream: AudioStream, frameCount: u32, looping: bool, ctxType: i32, ctxData: *mut c_void)->Music{
+       Music{stream:stream, frameCount:frameCount, looping:looping, ctxType:ctxType, ctxData:ctxData}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -290,6 +449,11 @@ pub struct VrDeviceInfo {
     pub lensDistortionValues: [f32; 4],
     pub chromaAbCorrection: [f32; 4],
 }
+impl VrDeviceInfo{
+    pub fn new(hResolution: i32, vResolution: i32, hScreenSize: f32, vScreenSize: f32, eyeToScreenDistance: f32, lensSeparationDistance: f32, interpupillaryDistance: f32, lensDistortionValues: [f32; 4], chromaAbCorrection: [f32; 4])->VrDeviceInfo{
+       VrDeviceInfo{hResolution:hResolution, vResolution:vResolution, hScreenSize:hScreenSize, vScreenSize:vScreenSize, eyeToScreenDistance:eyeToScreenDistance, lensSeparationDistance:lensSeparationDistance, interpupillaryDistance:interpupillaryDistance, lensDistortionValues:lensDistortionValues, chromaAbCorrection:chromaAbCorrection}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct VrStereoConfig {
@@ -302,11 +466,21 @@ pub struct VrStereoConfig {
     pub scale: [f32; 2],
     pub scaleIn: [f32; 2],
 }
+impl VrStereoConfig{
+    pub fn new(projection: [Matrix; 2], viewOffset: [Matrix; 2], leftLensCenter: [f32; 2], rightLensCenter: [f32; 2], leftScreenCenter: [f32; 2], rightScreenCenter: [f32; 2], scale: [f32; 2], scaleIn: [f32; 2])->VrStereoConfig{
+       VrStereoConfig{projection:projection, viewOffset:viewOffset, leftLensCenter:leftLensCenter, rightLensCenter:rightLensCenter, leftScreenCenter:leftScreenCenter, rightScreenCenter:rightScreenCenter, scale:scale, scaleIn:scaleIn}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct FilePathList {
     pub count: u32,
     pub paths: *mut c_char,
+}
+impl FilePathList{
+    pub fn new(count: u32, paths: *mut c_char)->FilePathList{
+       FilePathList{count:count, paths:paths}
+   }
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -315,12 +489,22 @@ pub struct AutomationEvent {
     pub r#type: u32,
     pub params: [i32; 4],
 }
+impl AutomationEvent{
+    pub fn new(frame: u32, r#type: u32, params: [i32; 4])->AutomationEvent{
+       AutomationEvent{frame:frame, r#type:r#type, params:params}
+   }
+}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct AutomationEventList {
     pub capacity: u32,
     pub count: u32,
     pub events: *mut AutomationEvent,
+}
+impl AutomationEventList{
+    pub fn new(capacity: u32, count: u32, events: *mut AutomationEvent)->AutomationEventList{
+       AutomationEventList{capacity:capacity, count:count, events:events}
+   }
 }
 enum ConfigFlags {
     FLAG_VSYNC_HINT = 0x00000040,
@@ -649,7 +833,7 @@ enum NPatchLayout {
     NPATCH_THREE_PATCH_VERTICAL,
 }
 mod raw{
-    use ffi_bind::*;
+    use raylib::*;
     unsafe extern "C" {
         pub fn InitWindow(width: i32, height: i32, title: *const c_char);
         pub fn CloseWindow();

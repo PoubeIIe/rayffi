@@ -224,7 +224,7 @@ fn main(){
     	file.push_str(&line);
     	file.push_str("\n");
     }
-    std::fs::write("ffi_bind.rs", file);
+    std::fs::write("raylib.rs", file);
 
 	// let tokens = Vec::new();
 	// for word in split_content{
