@@ -1,0 +1,6 @@
+raylib/
+test/
+gf2
+libraylib.a
+main
+raylib.h
