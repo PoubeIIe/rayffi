@@ -507,7 +507,7 @@ impl AutomationEventList{
        AutomationEventList{capacity:capacity, count:count, events:events}
    }
 }
-enum ConfigFlags {
+pub enum ConfigFlags {
     FLAG_VSYNC_HINT = 0x00000040,
     FLAG_FULLSCREEN_MODE = 0x00000002,
     FLAG_WINDOW_RESIZABLE = 0x00000004,
@@ -524,7 +524,7 @@ enum ConfigFlags {
     FLAG_BORDERLESS_WINDOWED_MODE = 0x00008000,
     FLAG_MSAA_4X_HINT = 0x00000020,
 }
-enum TraceLogLevel {
+pub enum TraceLogLevel {
     LOG_ALL = 0,
     LOG_TRACE,
     LOG_DEBUG,
@@ -533,7 +533,7 @@ enum TraceLogLevel {
     LOG_ERROR,
     LOG_FATAL,
 }
-enum KeyboardKey {
+pub enum KeyboardKey {
     KEY_NULL = 0,
     KEY_APOSTROPHE = 39,
     KEY_COMMA = 44,
@@ -644,7 +644,7 @@ enum KeyboardKey {
     KEY_MENU = 5,
     KEY_VOLUME_UP = 24,
 }
-enum MouseButton {
+pub enum MouseButton {
     MOUSE_BUTTON_LEFT = 0,
     MOUSE_BUTTON_RIGHT = 1,
     MOUSE_BUTTON_MIDDLE = 2,
@@ -652,7 +652,7 @@ enum MouseButton {
     MOUSE_BUTTON_EXTRA = 4,
     MOUSE_BUTTON_FORWARD = 5,
 }
-enum MouseCursor {
+pub enum MouseCursor {
     MOUSE_CURSOR_DEFAULT = 0,
     MOUSE_CURSOR_ARROW = 1,
     MOUSE_CURSOR_IBEAM = 2,
@@ -664,7 +664,7 @@ enum MouseCursor {
     MOUSE_CURSOR_RESIZE_NESW = 8,
     MOUSE_CURSOR_RESIZE_ALL = 9,
 }
-enum GamepadButton {
+pub enum GamepadButton {
     GAMEPAD_BUTTON_UNKNOWN = 0,
     GAMEPAD_BUTTON_LEFT_FACE_UP,
     GAMEPAD_BUTTON_LEFT_FACE_RIGHT,
@@ -683,14 +683,14 @@ enum GamepadButton {
     GAMEPAD_BUTTON_MIDDLE_RIGHT,
     GAMEPAD_BUTTON_LEFT_THUMB,
 }
-enum GamepadAxis {
+pub enum GamepadAxis {
     GAMEPAD_AXIS_LEFT_X = 0,
     GAMEPAD_AXIS_LEFT_Y = 1,
     GAMEPAD_AXIS_RIGHT_X = 2,
     GAMEPAD_AXIS_RIGHT_Y = 3,
     GAMEPAD_AXIS_LEFT_TRIGGER = 4,
 }
-enum MaterialMapIndex {
+pub enum MaterialMapIndex {
     MATERIAL_MAP_ALBEDO = 0,
     MATERIAL_MAP_METALNESS,
     MATERIAL_MAP_NORMAL,
@@ -702,7 +702,7 @@ enum MaterialMapIndex {
     MATERIAL_MAP_IRRADIANCE,
     MATERIAL_MAP_PREFILTER,
 }
-enum ShaderLocationIndex {
+pub enum ShaderLocationIndex {
     SHADER_LOC_VERTEX_POSITION = 0,
     SHADER_LOC_VERTEX_TEXCOORD01,
     SHADER_LOC_VERTEX_TEXCOORD02,
@@ -733,7 +733,7 @@ enum ShaderLocationIndex {
     SHADER_LOC_VERTEX_BONEWEIGHTS,
     SHADER_LOC_MATRIX_BONETRANSFORMS,
 }
-enum ShaderUniformDataType {
+pub enum ShaderUniformDataType {
     SHADER_UNIFORM_FLOAT = 0,
     SHADER_UNIFORM_VEC2,
     SHADER_UNIFORM_VEC3,
@@ -747,12 +747,12 @@ enum ShaderUniformDataType {
     SHADER_UNIFORM_UIVEC3,
     SHADER_UNIFORM_UIVEC4,
 }
-enum ShaderAttributeDataType {
+pub enum ShaderAttributeDataType {
     SHADER_ATTRIB_FLOAT = 0,
     SHADER_ATTRIB_VEC2,
     SHADER_ATTRIB_VEC3,
 }
-enum PixelFormat {
+pub enum PixelFormat {
     PIXELFORMAT_UNCOMPRESSED_GRAYSCALE = 1,
     PIXELFORMAT_UNCOMPRESSED_GRAY_ALPHA,
     PIXELFORMAT_UNCOMPRESSED_R5G6B5,
@@ -777,29 +777,29 @@ enum PixelFormat {
     PIXELFORMAT_COMPRESSED_PVRT_RGBA,
     PIXELFORMAT_COMPRESSED_ASTC_4x4_RGBA,
 }
-enum TextureFilter {
+pub enum TextureFilter {
     TEXTURE_FILTER_POINT = 0,
     TEXTURE_FILTER_BILINEAR,
     TEXTURE_FILTER_TRILINEAR,
     TEXTURE_FILTER_ANISOTROPIC_4X,
     TEXTURE_FILTER_ANISOTROPIC_8X,
 }
-enum TextureWrap {
+pub enum TextureWrap {
     TEXTURE_WRAP_REPEAT = 0,
     TEXTURE_WRAP_CLAMP,
     TEXTURE_WRAP_MIRROR_REPEAT,
 }
-enum CubemapLayout {
+pub enum CubemapLayout {
     CUBEMAP_LAYOUT_AUTO_DETECT = 0,
     CUBEMAP_LAYOUT_LINE_VERTICAL,
     CUBEMAP_LAYOUT_LINE_HORIZONTAL,
     CUBEMAP_LAYOUT_CROSS_THREE_BY_FOUR,
 }
-enum FontType {
+pub enum FontType {
     FONT_DEFAULT = 0,
     FONT_BITMAP,
 }
-enum BlendMode {
+pub enum BlendMode {
     BLEND_ALPHA = 0,
     BLEND_ADDITIVE,
     BLEND_MULTIPLIED,
@@ -808,7 +808,7 @@ enum BlendMode {
     BLEND_ALPHA_PREMULTIPLY,
     BLEND_CUSTOM,
 }
-enum Gesture {
+pub enum Gesture {
     GESTURE_NONE = 0,
     GESTURE_TAP = 1,
     GESTURE_DOUBLETAP = 2,
@@ -820,16 +820,16 @@ enum Gesture {
     GESTURE_SWIPE_DOWN = 128,
     GESTURE_PINCH_IN = 256,
 }
-enum CameraMode {
+pub enum CameraMode {
     CAMERA_CUSTOM = 0,
     CAMERA_FREE,
     CAMERA_ORBITAL,
     CAMERA_FIRST_PERSON,
 }
-enum CameraProjection {
+pub enum CameraProjection {
     CAMERA_PERSPECTIVE = 0,
 }
-enum NPatchLayout {
+pub enum NPatchLayout {
     NPATCH_NINE_PATCH = 0,
     NPATCH_THREE_PATCH_VERTICAL,
 }

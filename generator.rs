@@ -163,7 +163,7 @@ fn generate_type_alias(original_type: &VarType, alias_name: impl AsRef<str>, bin
 }
 
 fn generate_enum(name: impl AsRef<str>, fields: &Vec<(String, Option<TokenType>)>, bindings: &mut Vec<String>){
-	bindings.push(format!("enum {} {{", name.as_ref()));
+	bindings.push(format!("pub enum {} {{", name.as_ref()));
 	for field in fields{
 		let (field_name, field_value) = field;
 		match field_value{
