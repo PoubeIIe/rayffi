@@ -163,27 +163,31 @@ fn generate_type_alias(original_type: &VarType, alias_name: impl AsRef<str>, bin
 }
 
 fn generate_enum(name: impl AsRef<str>, fields: &Vec<(String, Option<TokenType>)>, bindings: &mut Vec<String>){
-	bindings.push(format!("pub enum {} {{", name.as_ref()));
+	bindings.push(format!("pub type {} = i32;", name.as_ref()));
+	let mut last_nbr = 0;
 	for field in fields{
 		let (field_name, field_value) = field;
 		match field_value{
 			Some(value)=>{
 				match value{
 					TokenType::Hex(hex)=>{
-						bindings.push(format!("    {} = {},", field_name, hex));
+						bindings.push(format!("pub const {}: {} = {};", field_name, name.as_ref(), hex));
+						last_nbr = usize::from_str_radix(hex.trim_start_matches("0x"), 16).unwrap();
 					}
 					TokenType::Number(num)=>{
-						bindings.push(format!("    {} = {},", field_name, num));
+						bindings.push(format!("pub const {}: {} = {};", field_name, name.as_ref(), num));
+						last_nbr = *num;
 					}
 					_=>{unreachable!("{:?}", value);}
 				}
 			}
 			None=>{
-				bindings.push(format!("    {},", field_name));
+				last_nbr+=1;
+				bindings.push(format!("pub const {}: {} = {};", field_name, name.as_ref(), last_nbr));
 			}
 		}
 	}
-	bindings.push("}".to_string());
+	bindings.push("".to_string());
 }
 
 fn generate_function(return_type: &VarType, fn_name: impl AsRef<str>, args: Vec<Statement>)->(String, String){
@@ -290,6 +294,6 @@ pub fn generate(ast: &AST)->Vec<String>{
 			bindings.push(wrapper);
 		}
 	}
-	file_dbg_print(&bindings);
+	// file_dbg_print(&bindings);
 	bindings
 }

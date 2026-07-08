@@ -249,14 +249,14 @@ fn parse_statements(tokens: &mut Vec<TokenType>, parsing_context: &mut ParsingCo
 								update_token_index(parsing_context);
 							}
 						}
+						declarations.push((extract_name(name, parsing_context), val));
 						if tokens[parsing_context.token_index].kind() == TokenKind::CBrace{update_token_index(parsing_context);break;}
 						expect(&tokens, TokenKind::Comma, parsing_context);
 						if tokens[parsing_context.token_index].kind() == TokenKind::CBrace{update_token_index(parsing_context);break;}
-						declarations.push((extract_name(name, parsing_context), val));
 					}
 					let name = expect(&tokens, TokenKind::Name, parsing_context);
 					expect(&tokens, TokenKind::Semicolon, parsing_context);
-					println!("parsed enum {:?}", name);
+					println!("parsed enum {:?} with declarations: {:?}", name, declarations);
 					Statement::Enum(extract_name(name, parsing_context), declarations)
 				},
 				TokenType::Name(original_name)=>{

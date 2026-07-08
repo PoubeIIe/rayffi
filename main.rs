@@ -216,7 +216,7 @@ fn main(){
         tokens.push(assign_type(current));
     }
 
-	println!("{:?}", tokens);
+	// println!("{:?}", tokens);
     let ast = parse(tokens);
     let file_vec = generate(&ast);
     let mut file = String::new();
