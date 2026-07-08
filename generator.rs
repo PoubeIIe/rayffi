@@ -250,6 +250,7 @@ fn file_dbg_print(bindings: &Vec<String>){
 
 pub fn generate(ast: &AST)->Vec<String>{
 	let mut bindings: Vec<String> = Vec::new();
+	bindings.push("#![allow(warnings)]".to_string());
 	bindings.push("use std::ffi::{c_char, c_uchar, c_void};".to_string());
 	bindings.push("use std::ffi::CString;".to_string());
 	let mut raw_functions: Vec<String> = Vec::new();

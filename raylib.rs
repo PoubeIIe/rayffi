@@ -1,3 +1,4 @@
+#![allow(warnings)]
 use std::ffi::{c_char, c_uchar, c_void};
 use std::ffi::CString;
 #[repr(C)]
